@@ -584,6 +584,24 @@ module Nexpose
       self.aces_level = (enable ? 'full' : 'none')
     end
 
+    # Enable or disable scap storage.
+    # @param [Boolean] enable Enable or disable the scap storage.
+    # <persistARFResults enabled="1"/>
+    def enable_arf_result_storage=(enable)
+      return if enable.nil?
+      policies = REXML::XPath.first(@xml, 'ScanTemplate/Policies')
+      if policies.nil?
+        policies = REXML::Element.new('Policies')
+        @xml.add_element(policies)
+      end
+      persistARFResults = REXML::XPath.first(policies, 'persistARFResults')
+      if persistARFResults.nil?
+        persistARFResults = REXML::Element.new('persistARFResults')
+        policies.add_element(persistARFResults)
+      end
+      persistARFResults.attributes['enabled'] = (enable ? 1 : 0)
+    end
+
     # Enable or disable windows service editor.
     # @param [Boolean] enable Enable or disable windows service editor.
     def windows_service_editor=(enable)
