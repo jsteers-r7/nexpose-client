@@ -599,7 +599,6 @@ module Nexpose
 
     # Enable or disable scap storage.
     # @param [Boolean] enable Enable or disable the scap storage.
-    # ScanTemplate -> Policies -> persistARFResults enabled="1"
     def enable_scap_storage=(enable)
       policies = REXML::XPath.first(@xml, 'ScanTemplate/Policies')
       if policies.nil?
